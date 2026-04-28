@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> The Woodlands Aerial Media | Real Estate Photography</title>
+    <meta name="description" content="Professional aerial photography and video for real estate in The Woodlands. Local expertise for your luxury listings.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <style>
+        :root {
+            --forest-green: #2f4f3f;
+            --warm-neutral: #f9f8f6;
+            --charcoal: #1a1a1a;
+            --stone: #e5e1da;
+        }
+
+        body {
+            background-color: var(--warm-neutral);
+            color: var(--charcoal);
+            font-family: 'Georgia', serif;
+            overflow-x: hidden;
+        }
+
+        .sans-text { font-family: 'Inter', sans-serif; }
+
+        /* Loader Styles */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #0a0a0a;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .hex-svg {
+            width: 100px;
+            height: 100px;
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+            animation: drawHex 1.8s ease forwards;
+        }
+
+        .logo-text {
+            opacity: 0;
+            animation: fadeIn 0.8s ease 1s forwards;
+            letter-spacing: 0.3em;
+            color: white;
+            font-size: 0.8rem;
+            margin-top: 20px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        @keyframes drawHex { to { stroke-dashoffset: 0; } }
+        @keyframes fadeIn { to { opacity: 1; } }
+
+        .loader-exit {
+            transform: translateY(-100%);
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        /* UI Elements */
+        .glass-nav {
+            background: rgba(249, 248, 246, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(47, 79, 63, 0.1);
+        }
+
+        .btn-primary {
+            background-color: var(--forest-green);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #1e352a;
+            transform: translateY(-1px);
+        }
+
+        .service-card {
+            background: white;
+            border: 1px solid var(--stone);
+            transition: all 0.4s ease;
+        }
+
+        .minimal-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #d1d5db;
+            border-radius: 0;
+            padding: 12px 0;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        
+        .minimal-input:focus {
+            border-bottom-color: var(--forest-green);
+        }
+
+        .input-label {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #9ca3af;
+            margin-bottom: 4px;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--warm-neutral); }
+        ::-webkit-scrollbar-thumb { background: var(--stone); border-radius: 10px; }
+    </style>
+</head>
+<body x-data="{ mobileMenu: false }">
+
+    <div id="loader">
+        <svg class="hex-svg" viewBox="0 0 100 100">
+            <path d="M50 5 L90 27.5 L90 72.5 L50 95 L10 72.5 L10 27.5 Z" fill="none" stroke="#2f4f3f" stroke-width="2" />
+            <text x="50" y="58" text-anchor="middle" fill="white" style="font-size: 24px; font-weight: bold; letter-spacing: 0;">TW</text>
+        </svg>
+        <div class="logo-text"> THE WOODLANDS AERIAL MEDIA</div>
+    </div>
+
+    <nav class="fixed w-full z-50 glass-nav">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="text-xl font-bold tracking-tight flex items-center gap-2 sans-text uppercase">
+                <span class="text-[#2f4f3f]">The Woodlands</span><span class="font-light text-gray-500">Aerial Media</span>
+            </div>
+            
+            <div class="hidden md:flex space-x-10 text-xs uppercase tracking-[0.2em] font-semibold text-gray-600">
+                <a href="#services" class="hover:text-[#2f4f3f] transition">Services</a>
+                <a href="#portfolio" class="hover:text-[#2f4f3f] transition">Portfolio</a>
+                <a href="#about" class="hover:text-[#2f4f3f] transition">Local Focus</a>
+                <a href="#contact" class="text-[#2f4f3f] border-b border-[#2f4f3f]/30 pb-1">Get Started</a>
+            </div>
+
+            <button @click="mobileMenu = !mobileMenu" class="md:hidden text-gray-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+
+        <div x-show="mobileMenu" class="md:hidden bg-white border-b border-gray-100 p-6 space-y-4 sans-text text-center uppercase tracking-widest text-sm">
+            <a href="#services" class="block" @click="mobileMenu = false">Services</a>
+            <a href="#portfolio" class="block" @click="mobileMenu = false">Portfolio</a>
+            <a href="#contact" class="block text-[#2f4f3f]" @click="mobileMenu = false">Request a Quote</a>
+        </div>
+    </nav>
+
+    <header class="relative min-h-[85vh] flex items-center justify-center bg-[#f9f8f6] pt-20">
+        <div class="relative z-20 text-center px-4 max-w-5xl" data-aos="fade-up">
+            <h1 class="text-5xl md:text-8xl font-light text-[#1a1a1a] mb-8 tracking-tight leading-[1.1]">
+                Elevated Perspective for <br>
+                <span class="italic font-serif text-[#2f4f3f]">Luxury Listings</span>
+            </h1>
+            <p class="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto mb-12 sans-text font-light leading-relaxed">
+                Premium aerial photography and cinematic video for real estate in The Woodlands. We capture the scale, the privacy, and the prestige of your property.
+            </p>
+            <div class="flex flex-col md:flex-row gap-6 justify-center sans-text">
+                <a href="#contact" class="btn-primary px-12 py-5 rounded shadow-lg font-medium tracking-wide uppercase text-sm">
+                    Schedule a Shoot
+                </a>
+                <a href="#portfolio" class="px-12 py-5 bg-transparent border border-stone-300 text-[#1a1a1a] rounded font-medium hover:bg-stone-100 transition uppercase text-sm">
+                    View Portfolio
+                </a>
+            </div>
+        </div>
+    </header>
+    
+        <!-- Why Us (Strategic Advantage) -->
+    <section class="py-24 px-6 bg-white border-b border-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h3 class="text-[#2f4f3f] font-bold sans-text uppercase tracking-widest text-sm mb-4">Strategic Advantage</h3>
+                <h2 class="text-4xl font-light">Why Top Agents Choose Us</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 sans-text text-center">
+                <div data-aos="fade-up">
+                    <div class="text-[#2f4f3f] mb-4 text-2xl font-serif">01</div>
+                    <h4 class="font-bold mb-2 uppercase text-xs tracking-widest">Local Knowledge</h4>
+                    <p class="text-sm text-gray-500 font-light">Expert navigation of The Woodlands' complex lot layouts and village canopy.</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-[#2f4f3f] mb-4 text-2xl font-serif">02</div>
+                    <h4 class="font-bold mb-2 uppercase text-xs tracking-widest">Rapid Delivery</h4>
+                    <p class="text-sm text-gray-500 font-light">Clean, MLS-ready media delivered within 24–48 hours of every shoot.</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="200">
+                    <div class="text-[#2f4f3f] mb-4 text-2xl font-serif">03</div>
+                    <h4 class="font-bold mb-2 uppercase text-xs tracking-widest">Outcome Focused</h4>
+                    <p class="text-sm text-gray-500 font-light">We don't just take photos; we highlight privacy, proximity, and property scale.</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-[#2f4f3f] mb-4 text-2xl font-serif">04</div>
+                    <h4 class="font-bold mb-2 uppercase text-xs tracking-widest">Elite Service</h4>
+                    <p class="text-sm text-gray-500 font-light">Professional communication from booking to delivery for your peace of mind.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 px-6 bg-white">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-16">
+            <div class="md:w-1/2" data-aos="fade-right">
+                <img src="https://res.cloudinary.com/sagacity/image/upload/c_crop,h_2661,w_3992,x_0,y_0/c_limit,dpr_auto,f_auto,fl_lossy,q_80,w_1200/woodlands-1_vmbwj9.jpg" class="rounded-2xl shadow-2xl grayscale-[20%]" alt="The Woodlands View">
+            </div>
+            <div class="md:w-1/2" data-aos="fade-left">
+                <h3 class="text-[#2f4f3f] font-bold sans-text uppercase tracking-widest text-sm mb-4">Local Expertise</h3>
+                <h2 class="text-4xl font-light mb-6">Built for The Woodlands Market</h2>
+                <p class="text-gray-600 leading-relaxed mb-6 sans-text">
+                    We understand how important surroundings are here—the trees, the lakefronts, and the trails. Our photography focuses on capturing the unique environment and privacy buyers expect.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-24 px-6 border-y border-gray-100">
+        <div class="max-w-7xl mx-auto text-center mb-16">
+            <h2 class="text-4xl font-light">Professional Media Services</h2>
+        </div>
+        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
+            <div class="service-card p-10 rounded-2xl" data-aos="fade-up">
+                <div class="text-[#2f4f3f] mb-6">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path></svg>
+                </div>
+                <h4 class="text-xl font-bold mb-4 sans-text">Aerial Photography</h4>
+                <p class="text-gray-600 text-sm leading-relaxed sans-text">Clean, high-resolution images that highlight the full layout of the property.</p>
+            </div>
+            <div class="service-card p-10 rounded-2xl" data-aos="fade-up" data-aos-delay="100">
+                <div class="text-[#2f4f3f] mb-6">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                </div>
+                <h4 class="text-xl font-bold mb-4 sans-text">Cinematic Video</h4>
+                <p class="text-gray-600 text-sm leading-relaxed sans-text">Smooth cinematic flyovers that give buyers a true sense of space and layout.</p>
+            </div>
+
+            <div class="service-card p-10 rounded-2xl" data-aos="fade-up" data-aos-delay="200">
+                <div class="text-[#2f4f3f] mb-6">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                </div>
+                <h4 class="text-xl font-bold mb-4 sans-text">Virtual Tours</h4>
+                <p class="text-gray-600 text-sm leading-relaxed sans-text">Comprehensive virtual tours allowing remote buyers to explore from any device.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="py-24 px-6 bg-white">
+        <div class="max-w-7xl mx-auto text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-light">The Gallery</h2>
+        </div>
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden" data-aos="fade-up">
+                <img src="https://www.papercitymag.com/wp-content/uploads/2023/12/62-Hallbrook-Way.jpg" class="w-full h-full object-cover hover:scale-105 transition duration-700">
+            </div>
+            <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                <img src="https://www.papercitymag.com/wp-content/uploads/2023/05/88-W-Grand-Regency.jpeg" class="w-full h-full object-cover hover:scale-105 transition duration-700">
+            </div>
+            <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                <img src="https://platinumluxuryauctions.com/wp-content/uploads/2018/06/Rose_ExtFrontEve3_FeatThumb.jpg" class="w-full h-full object-cover hover:scale-105 transition duration-700">
+            </div>
+            <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden" data-aos="fade-up">
+                <img src="https://photos.prod.cirrussystem.net/496/9d85ceaf0d65e451c856e0bd2820b115/3592243678.jpeg" class="w-full h-full object-cover hover:scale-105 transition duration-700">
+            </div>
+            <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                <img src="https://www.papercitymag.com/wp-content/uploads/2023/04/10-W-Isle-Place-Exterior-1.jpg" class="w-full h-full object-cover hover:scale-105 transition duration-700">
+            </div>
+            <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                <img src="https://ap.rdcpix.com/0ea38c7516f74422f270b4e02fe55ea8l-m3165037148rd-w960_h720.webp" class="w-full h-full object-cover hover:scale-105 transition duration-700">
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="py-24 px-6 bg-[#f9f8f6] text-center">
+        <div class="max-w-4xl mx-auto" data-aos="fade-up">
+            <h2 class="text-4xl md:text-5xl font-light mb-6">Simple, Transparent Pricing</h2>
+            <p class="text-gray-600 sans-text max-w-3xl mx-auto leading-relaxed mb-8">
+                Every property is different. We tailor each shoot to fit the home, location, and your specific marketing goals.
+            </p>
+            <a href="#contact" class="inline-block border border-gray-800 px-10 py-4 sans-text text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-gray-800 hover:text-white transition">Request a Quote</a>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 px-6 bg-[#f9f8f6]">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl md:text-5xl font-light mb-2">Schedule Your Shoot</h2>
+                <p class="sans-text text-[10px] font-bold uppercase tracking-widest text-gray-500">Serving The Woodlands and surrounding areas</p>
+            </div>
+            
+            <form class="space-y-12" data-aos="fade-up">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
+                    <div>
+                        <label class="input-label">Name</label>
+                        <input type="text" class="minimal-input">
+                    </div>
+                    <div>
+                        <label class="input-label">Email</label>
+                        <input type="email" class="minimal-input">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="input-label">Property Address</label>
+                    <input type="text" class="minimal-input">
+                </div>
+                
+                <div>
+                    <label class="input-label">Tell us about the project</label>
+                    <textarea rows="4" class="minimal-input resize-none"></textarea>
+                </div>
+                
+                <div class="text-center pt-8">
+                    <button type="submit" class="bg-[#3a4d3f] text-white px-16 py-5 rounded-sm sans-text font-bold text-xs uppercase tracking-widest hover:bg-[#2f4f3f] transition shadow-xl">
+                        Get Started
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer class="py-12 border-t border-stone-200 text-center text-gray-400 sans-text text-[10px] uppercase tracking-[0.3em]">
+        <p>&copy; 2026 Woodlands Aerial Media. Professional Real Estate Photography.</p>
+    </footer>
+
+    <script>
+        AOS.init({ duration: 1200, once: true });
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                document.getElementById("loader").classList.add("loader-exit");
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
