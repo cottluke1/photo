@@ -1,330 +1,368 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowRight, Camera, Drone, Map, Home as HomeIcon, Award, ChevronRight } from 'lucide-react';
-
-// --- COMPONENTS ---
-
-const Navbar = ({ currentPage, setPage }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const navLinks = [
-    { name: 'Portfolio', id: 'portfolio' },
-    { name: 'Services', id: 'services' },
-    { name: 'About', id: 'about' },
-  ];
-
-  return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md py-4 shadow-sm' : 'bg-white py-6'}`}>
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <div 
-          className="text-2xl font-bold tracking-tighter cursor-pointer" 
-          onClick={() => setPage('home')}
-        >
-          LUKE COTT
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUKE COTT | Luxury Aerial Photography</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap');
         
-        <div className="hidden md:flex items-center space-x-10">
-          {navLinks.map((link) => (
-            <button
-              key={link.id}
-              onClick={() => setPage(link.id)}
-              className={`text-sm uppercase tracking-widest font-medium hover:text-neutral-500 transition-colors ${currentPage === link.id ? 'text-black' : 'text-neutral-400'}`}
-            >
-              {link.name}
-            </button>
-          ))}
-          <button 
-            onClick={() => setPage('quote')}
-            className="bg-black text-white px-6 py-3 text-xs uppercase tracking-widest hover:bg-neutral-800 transition-all"
-          >
-            Get a Quote
-          </button>
-        </div>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
 
-        <div className="md:hidden">
-          <Menu className="w-6 h-6" />
+        .section-fade {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .section-fade.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .image-placeholder {
+            background-color: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-placeholder::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: translateX(-100%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            100% { transform: translateX(100%); }
+        }
+    </style>
+</head>
+<body class="bg-white text-neutral-900 selection:bg-black selection:text-white">
+
+    <!-- NAVIGATION -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 bg-white py-6">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-tighter cursor-pointer" onclick="navigateTo('home')">
+                LUKE COTT
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-10">
+                <button onclick="navigateTo('portfolio')" class="nav-link text-sm uppercase tracking-widest font-medium text-neutral-400 hover:text-black transition-colors">Portfolio</button>
+                <button onclick="navigateTo('services')" class="nav-link text-sm uppercase tracking-widest font-medium text-neutral-400 hover:text-black transition-colors">Services</button>
+                <button onclick="navigateTo('about')" class="nav-link text-sm uppercase tracking-widest font-medium text-neutral-400 hover:text-black transition-colors">About</button>
+                
+                <button onclick="navigateTo('quote')" class="bg-black text-white px-6 py-3 text-xs uppercase tracking-widest hover:bg-neutral-800 transition-all">
+                    Get a Quote
+                </button>
+            </div>
+
+            <div class="md:hidden">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </div>
         </div>
-      </div>
     </nav>
-  );
-};
 
-const Footer = ({ setPage }) => (
-  <footer className="bg-neutral-950 text-white py-24 px-6">
-    <div className="max-w-7xl mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-neutral-800 pb-16">
-        <div className="col-span-1 md:col-span-2">
-          <h2 className="text-3xl font-bold tracking-tighter mb-6">LUKE COTT</h2>
-          <p className="text-neutral-400 max-w-sm text-lg leading-relaxed">
-            Elevating real estate marketing through high-resolution aerial perspectives and architectural precision.
-          </p>
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="pt-32">
+        
+        <!-- HOME PAGE -->
+        <div id="home" class="section-fade active">
+            <!-- Hero Section -->
+            <section class="px-6 py-20 md:py-40 max-w-7xl mx-auto text-center">
+                <h1 class="text-5xl md:text-8xl font-bold tracking-tighter mb-8 leading-[1.1]">
+                    Aerial Photography That <br />Sells Properties Faster
+                </h1>
+                <p class="text-xl md:text-2xl text-neutral-500 max-w-2xl mx-auto mb-12 font-light leading-relaxed">
+                    Luxury drone photography for homes, architecture, and commercial real estate.
+                </p>
+                <button onclick="navigateTo('quote')" class="group flex items-center space-x-3 mx-auto text-lg font-medium border-b-2 border-black pb-2 hover:text-neutral-500 hover:border-neutral-300 transition-all">
+                    <span>Get a Quote</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+            </section>
+
+            <!-- Feature Boxes -->
+            <section class="px-6 py-24 bg-neutral-50">
+                <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Box 1 -->
+                    <div class="relative aspect-[4/5] overflow-hidden group cursor-pointer">
+                        <div class="absolute inset-0 bg-black/5 group-hover:bg-black/20 transition-colors z-10"></div>
+                        <div class="absolute inset-0 flex flex-col justify-end p-10 z-20">
+                            <span class="text-white/70 text-xs uppercase tracking-widest mb-2">Service</span>
+                            <h3 class="text-white text-3xl font-bold tracking-tight">Aerial Photography</h3>
+                            <p class="text-white/80 font-medium">Homes</p>
+                        </div>
+                        <div class="w-full h-full image-placeholder text-neutral-400">[ IMAGE_URL_HERE ]</div>
+                    </div>
+
+                    <!-- Box 2 -->
+                    <div class="relative aspect-[4/5] overflow-hidden group cursor-pointer">
+                        <div class="absolute inset-0 bg-black/5 group-hover:bg-black/20 transition-colors z-10"></div>
+                        <div class="absolute inset-0 flex flex-col justify-end p-10 z-20">
+                            <span class="text-white/70 text-xs uppercase tracking-widest mb-2">Specialization</span>
+                            <h3 class="text-white text-3xl font-bold tracking-tight">Architecture & Commercial</h3>
+                            <p class="text-white/80 font-medium">Real Estate</p>
+                        </div>
+                        <div class="w-full h-full image-placeholder bg-neutral-300 text-neutral-400">[ IMAGE_URL_HERE ]</div>
+                    </div>
+
+                    <!-- Box 3 -->
+                    <div onclick="navigateTo('portfolio')" class="flex flex-col justify-between p-12 bg-black text-white aspect-[4/5] hover:bg-neutral-900 transition-colors group cursor-pointer">
+                        <div class="text-xs uppercase tracking-[0.3em] font-bold text-neutral-500">The Mission</div>
+                        <h3 class="text-4xl md:text-5xl font-bold tracking-tighter leading-tight">
+                            IMAGES THAT CLOSE DEALS
+                        </h3>
+                        <div class="flex items-center space-x-2 text-sm uppercase tracking-widest font-bold group-hover:translate-x-2 transition-transform">
+                            <span>Get Started</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Value Prop -->
+            <section class="py-32 px-6 text-center max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tighter mb-10 leading-tight">
+                    Expert Photography for Homes, Architecture, and Commercial Properties
+                </h2>
+                <button onclick="navigateTo('quote')" class="bg-black text-white px-10 py-5 text-sm uppercase tracking-[0.2em] font-bold hover:bg-neutral-800 transition-all rounded-sm shadow-xl">
+                    Schedule Your Photography Session
+                </button>
+            </section>
+
+            <!-- Gallery Grid -->
+            <section class="px-4 pb-32">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="aspect-square image-placeholder text-[10px]">IMAGE_URL_HERE_1</div>
+                    <div class="aspect-square image-placeholder text-[10px]">IMAGE_URL_HERE_2</div>
+                    <div class="aspect-square image-placeholder text-[10px]">IMAGE_URL_HERE_3</div>
+                    <div class="aspect-square image-placeholder text-[10px]">IMAGE_URL_HERE_4</div>
+                    <div class="aspect-square image-placeholder text-[10px]">IMAGE_URL_HERE_5</div>
+                    <div class="aspect-square image-placeholder text-[10px]">IMAGE_URL_HERE_6</div>
+                    <div class="aspect-square image-placeholder text-[10px]">IMAGE_URL_HERE_7</div>
+                    <div class="aspect-square image-placeholder text-[10px]">IMAGE_URL_HERE_8</div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about-section" class="bg-neutral-50 py-32 px-6">
+                <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+                    <div class="aspect-[4/5] image-placeholder shadow-2xl">
+                        <span class="text-sm font-mono">[ IMAGE_URL_HERE_PORTRAIT ]</span>
+                    </div>
+                    <div class="space-y-8">
+                        <h2 class="text-5xl font-bold tracking-tighter">Meet Luke Cott</h2>
+                        <div class="space-y-6 text-xl text-neutral-600 leading-relaxed font-light">
+                            <p>
+                                I am a specialized drone photographer dedicated to capturing the architectural essence and unique selling points of high-end properties. By merging advanced technical piloting with an editorial eye, I provide real estate professionals with the visual assets needed to command attention in a competitive market.
+                            </p>
+                            <p>
+                                At 16 years old, I bring a fresh, digital-native perspective to architectural media. My youth is my competitive advantage—driving a relentless focus on the latest imaging technologies and a rapid, precision-oriented workflow that delivers consistent, high-quality results for residential and commercial clients alike.
+                            </p>
+                        </div>
+                        <button onclick="navigateTo('about')" class="flex items-center space-x-3 text-black font-bold uppercase tracking-widest border-b-2 border-black pb-2 hover:text-neutral-500 hover:border-neutral-300 transition-all">
+                            <span>Learn More</span>
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
         </div>
-        <div>
-          <h4 className="text-xs uppercase tracking-widest text-neutral-500 mb-6 font-bold">Navigation</h4>
-          <ul className="space-y-4 text-sm font-medium">
-            <li><button onClick={() => setPage('portfolio')} className="hover:text-neutral-400 transition-colors">Portfolio</button></li>
-            <li><button onClick={() => setPage('services')} className="hover:text-neutral-400 transition-colors">Services</button></li>
-            <li><button onClick={() => setPage('about')} className="hover:text-neutral-400 transition-colors">About</button></li>
-            <li><button onClick={() => setPage('contact')} className="hover:text-neutral-400 transition-colors">Contact</button></li>
-          </ul>
+
+        <!-- PORTFOLIO PAGE -->
+        <div id="portfolio" class="section-fade">
+            <section class="px-6 max-w-5xl mx-auto text-center mb-32 pt-20">
+                <h1 class="text-6xl md:text-8xl font-bold tracking-tighter mb-10 uppercase">Aerial Photography</h1>
+                <p class="text-sm uppercase tracking-[0.4em] text-neutral-500 mb-10 font-bold">Serving Residential, Commercial & Development Projects</p>
+                <p class="text-xl md:text-2xl text-neutral-600 font-light leading-relaxed max-w-3xl mx-auto">
+                    In the world of high-end real estate, perspective is everything. Our drone solutions provide builders, developers, and agents with a comprehensive visual narrative that traditional photography simply cannot reach. From site analysis to final marketing assets, we deliver precision.
+                </p>
+            </section>
+
+            <!-- Featured Row -->
+            <section class="px-4 mb-32">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="aspect-video image-placeholder border border-neutral-200">IMAGE_URL_HERE_FEATURE_1</div>
+                    <div class="aspect-video image-placeholder border border-neutral-200">IMAGE_URL_HERE_FEATURE_2</div>
+                    <div class="aspect-video image-placeholder border border-neutral-200">IMAGE_URL_HERE_FEATURE_3</div>
+                </div>
+            </section>
+
+            <!-- Split Section -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-0 mb-32">
+                <div class="bg-neutral-50 p-16 md:p-32 flex flex-col justify-center">
+                    <h2 class="text-4xl font-bold tracking-tighter mb-8">Elevated Site Analysis</h2>
+                    <p class="text-lg text-neutral-600 leading-relaxed font-light mb-8">
+                        Beyond marketing, aerial photography offers invaluable insights for development. We capture precise views that assist in site planning, boundary verification, and construction progress tracking, ensuring every phase of your project is documented with clarity.
+                    </p>
+                    <div class="flex space-x-8">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold">100+</div>
+                            <div class="text-[10px] uppercase tracking-widest text-neutral-500 font-bold">Properties</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold">4K</div>
+                            <div class="text-[10px] uppercase tracking-widest text-neutral-500 font-bold">Resolution</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="aspect-square image-placeholder">IMAGE_URL_HERE_SPLIT</div>
+            </section>
+
+            <!-- Large Grid Gallery -->
+            <section class="px-4 mb-32">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="portfolio-grid">
+                    <!-- Script will generate 15 items here -->
+                </div>
+            </section>
+
+            <!-- Feature Block -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-0 bg-neutral-950 text-white mb-32">
+                <div class="aspect-square image-placeholder bg-neutral-800 text-neutral-600">IMAGE_URL_HERE_NIGHT_OR_DUSK</div>
+                <div class="p-16 md:p-32 flex flex-col justify-center">
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-8">High-Resolution Aerial Views: Elevate Your Project</h2>
+                    <p class="text-xl text-neutral-400 leading-relaxed font-light mb-10">
+                        Capture the scale of your development and the prestige of your architecture. Our high-resolution imagery provides a competitive advantage that defines modern luxury real estate listings.
+                    </p>
+                    <button class="self-start border border-white px-8 py-4 text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all">
+                        View Projects
+                    </button>
+                </div>
+            </section>
+
+            <!-- Testimonial Strip -->
+            <section class="py-40 px-6 text-center">
+                <p class="text-3xl md:text-5xl font-serif italic text-neutral-800 max-w-4xl mx-auto leading-tight">
+                    "Clients hire Luke because his photography drives results and defines the standard for aerial architectural media."
+                </p>
+            </section>
+
+            <!-- Brand Logos -->
+            <section class="py-24 border-t border-neutral-100 px-6">
+                <div class="max-w-7xl mx-auto flex flex-wrap justify-center items-center gap-16 md:gap-32 opacity-30 grayscale">
+                    <div class="text-2xl font-bold">LUXURY HOMES</div>
+                    <div class="text-2xl font-bold">REALTY GROUP</div>
+                    <div class="text-2xl font-bold">ARCH MEDIA</div>
+                    <div class="text-2xl font-bold">DEVELOP CO</div>
+                    <div class="text-2xl font-bold">PRIME ESTATE</div>
+                </div>
+            </section>
         </div>
-        <div>
-          <h4 className="text-xs uppercase tracking-widest text-neutral-500 mb-6 font-bold">Connect</h4>
-          <ul className="space-y-4 text-sm font-medium">
-            <li className="text-neutral-400 hover:text-white transition-colors cursor-pointer">Instagram</li>
-            <li className="text-neutral-400 hover:text-white transition-colors cursor-pointer">LinkedIn</li>
-            <li className="text-neutral-400 hover:text-white transition-colors cursor-pointer">Vimeo</li>
-          </ul>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-neutral-950 text-white py-24 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-neutral-800 pb-16">
+                <div class="col-span-1 md:col-span-2">
+                    <h2 class="text-3xl font-bold tracking-tighter mb-6">LUKE COTT</h2>
+                    <p class="text-neutral-400 max-w-sm text-lg leading-relaxed">
+                        Elevating real estate marketing through high-resolution aerial perspectives and architectural precision.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-xs uppercase tracking-widest text-neutral-500 mb-6 font-bold">Navigation</h4>
+                    <ul class="space-y-4 text-sm font-medium">
+                        <li><button onclick="navigateTo('portfolio')" class="hover:text-neutral-400 transition-colors">Portfolio</button></li>
+                        <li><button onclick="navigateTo('services')" class="hover:text-neutral-400 transition-colors">Services</button></li>
+                        <li><button onclick="navigateTo('about')" class="hover:text-neutral-400 transition-colors">About</button></li>
+                        <li><button onclick="navigateTo('contact')" class="hover:text-neutral-400 transition-colors">Contact</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xs uppercase tracking-widest text-neutral-500 mb-6 font-bold">Connect</h4>
+                    <ul class="space-y-4 text-sm font-medium">
+                        <li class="text-neutral-400 hover:text-white transition-colors cursor-pointer">Instagram</li>
+                        <li class="text-neutral-400 hover:text-white transition-colors cursor-pointer">LinkedIn</li>
+                        <li class="text-neutral-400 hover:text-white transition-colors cursor-pointer">Vimeo</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-neutral-500 tracking-widest">
+                <p>© 2024 LUKE COTT MEDIA. ALL RIGHTS RESERVED.</p>
+                <p class="mt-4 md:mt-0 uppercase font-bold tracking-[0.3em]">Precision Matters</p>
+            </div>
         </div>
-      </div>
-      <div className="pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-neutral-500 tracking-widest">
-        <p>© 2024 LUKE COTT MEDIA. ALL RIGHTS RESERVED.</p>
-        <p className="mt-4 md:mt-0">DESIGNED FOR EXCELLENCE</p>
-      </div>
-    </div>
-  </footer>
-);
+    </footer>
 
-const Home = ({ setPage }) => (
-  <div className="pt-32">
-    {/* Hero Section */}
-    <section className="px-6 py-20 md:py-40 max-w-7xl mx-auto text-center">
-      <h1 className="text-5xl md:text-8xl font-bold tracking-tighter mb-8 leading-[1.1]">
-        Aerial Photography That <br />Sells Properties Faster
-      </h1>
-      <p className="text-xl md:text-2xl text-neutral-500 max-w-2xl mx-auto mb-12 font-light leading-relaxed">
-        Luxury drone photography for homes, architecture, and commercial real estate.
-      </p>
-      <button 
-        onClick={() => setPage('quote')}
-        className="group flex items-center space-x-3 mx-auto text-lg font-medium border-b-2 border-black pb-2 hover:text-neutral-500 hover:border-neutral-300 transition-all"
-      >
-        <span>Get a Quote</span>
-        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-      </button>
-    </section>
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
 
-    {/* Feature Boxes */}
-    <section className="px-6 py-24 bg-neutral-50">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="relative aspect-[4/5] bg-neutral-200 overflow-hidden group cursor-pointer">
-          <div className="absolute inset-0 bg-black/5 group-hover:bg-black/20 transition-colors z-10" />
-          <div className="absolute inset-0 flex flex-col justify-end p-10 z-20">
-            <span className="text-white/70 text-xs uppercase tracking-widest mb-2">Service</span>
-            <h3 className="text-white text-3xl font-bold tracking-tight">Aerial Photography</h3>
-            <p className="text-white/80 font-medium">Homes</p>
-          </div>
-          <div className="w-full h-full bg-neutral-300 animate-pulse flex items-center justify-center text-neutral-400">
-            [ IMAGE_URL_HERE ]
-          </div>
-        </div>
+        // Handle Scroll Header Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('bg-white/95', 'backdrop-blur-md', 'py-4', 'shadow-sm');
+                nav.classList.remove('bg-white', 'py-6');
+            } else {
+                nav.classList.remove('bg-white/95', 'backdrop-blur-md', 'py-4', 'shadow-sm');
+                nav.classList.add('bg-white', 'py-6');
+            }
+        });
 
-        <div className="relative aspect-[4/5] bg-neutral-200 overflow-hidden group cursor-pointer">
-          <div className="absolute inset-0 bg-black/5 group-hover:bg-black/20 transition-colors z-10" />
-          <div className="absolute inset-0 flex flex-col justify-end p-10 z-20">
-            <span className="text-white/70 text-xs uppercase tracking-widest mb-2">Specialization</span>
-            <h3 className="text-white text-3xl font-bold tracking-tight">Architecture & Commercial</h3>
-            <p className="text-white/80 font-medium">Real Estate</p>
-          </div>
-          <div className="w-full h-full bg-neutral-400 animate-pulse flex items-center justify-center text-neutral-300">
-            [ IMAGE_URL_HERE ]
-          </div>
-        </div>
+        // Simple SPA Routing Logic
+        function navigateTo(pageId) {
+            // Scroll to top
+            window.scrollTo(0, 0);
 
-        <div className="flex flex-col justify-between p-12 bg-black text-white aspect-[4/5] hover:bg-neutral-900 transition-colors group cursor-pointer">
-          <div className="text-xs uppercase tracking-[0.3em] font-bold text-neutral-500">The Mission</div>
-          <h3 className="text-4xl md:text-5xl font-bold tracking-tighter leading-tight">
-            IMAGES THAT CLOSE DEALS
-          </h3>
-          <button 
-            onClick={() => setPage('portfolio')}
-            className="flex items-center space-x-2 text-sm uppercase tracking-widest font-bold group-hover:translate-x-2 transition-transform"
-          >
-            <span>Get Started</span>
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-    </section>
+            // Hide all sections
+            document.querySelectorAll('.section-fade').forEach(section => {
+                section.classList.remove('active');
+            });
 
-    {/* Value Prop */}
-    <section className="py-32 px-6 text-center max-w-4xl mx-auto">
-      <h2 className="text-3xl md:text-5xl font-bold tracking-tighter mb-10 leading-tight">
-        Expert Photography for Homes, Architecture, and Commercial Properties
-      </h2>
-      <button 
-        onClick={() => setPage('quote')}
-        className="bg-black text-white px-10 py-5 text-sm uppercase tracking-[0.2em] font-bold hover:bg-neutral-800 transition-all rounded-sm shadow-xl"
-      >
-        Schedule Your Photography Session
-      </button>
-    </section>
+            // Show active section
+            if (pageId === 'portfolio') {
+                document.getElementById('portfolio').classList.add('active');
+            } else {
+                document.getElementById('home').classList.add('active');
+                
+                // If it's a sub-section of home, scroll to it
+                if (pageId === 'about') {
+                    setTimeout(() => {
+                        document.getElementById('about-section').scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                }
+            }
 
-    {/* Gallery Grid */}
-    <section className="px-4 pb-32">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {[1,2,3,4,5,6,7,8].map((i) => (
-          <div key={i} className="aspect-square bg-neutral-100 flex items-center justify-center text-neutral-300 overflow-hidden relative group">
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors z-10" />
-            <span className="text-[10px] uppercase tracking-widest z-20">IMAGE_URL_HERE_{i}</span>
-          </div>
-        ))}
-      </div>
-    </section>
+            // Update nav link styles
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.innerText.toLowerCase() === pageId) {
+                    link.classList.add('text-black');
+                    link.classList.remove('text-neutral-400');
+                } else {
+                    link.classList.remove('text-black');
+                    link.classList.add('text-neutral-400');
+                }
+            });
+        }
 
-    {/* About Section */}
-    <section className="bg-neutral-50 py-32 px-6">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
-        <div className="aspect-[4/5] bg-neutral-200 relative overflow-hidden shadow-2xl">
-          <div className="absolute inset-0 flex items-center justify-center text-neutral-400 font-mono text-sm">
-            [ IMAGE_URL_HERE_PORTRAIT ]
-          </div>
-        </div>
-        <div className="space-y-8">
-          <h2 className="text-5xl font-bold tracking-tighter">Meet Luke Cott</h2>
-          <div className="space-y-6 text-xl text-neutral-600 leading-relaxed font-light">
-            <p>
-              I am a specialized drone photographer dedicated to capturing the architectural essence and unique selling points of high-end properties. By merging advanced technical piloting with an editorial eye, I provide real estate professionals with the visual assets needed to command attention in a competitive market.
-            </p>
-            <p>
-              At 16 years old, I bring a fresh, digital-native perspective to architectural media. My youth is my competitive advantage—driving a relentless focus on the latest imaging technologies and a rapid, precision-oriented workflow that delivers consistent, high-quality results for residential and commercial clients alike.
-            </p>
-          </div>
-          <button 
-            onClick={() => setPage('about')}
-            className="flex items-center space-x-3 text-black font-bold uppercase tracking-widest border-b-2 border-black pb-2 hover:text-neutral-500 hover:border-neutral-300 transition-all"
-          >
-            <span>Learn More</span>
-            <ArrowRight className="w-5 h-5" />
-          </button>
-        </div>
-      </div>
-    </section>
-  </div>
-);
-
-const Portfolio = () => (
-  <div className="pt-40">
-    <section className="px-6 max-w-5xl mx-auto text-center mb-32">
-      <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-10 uppercase">Aerial Photography</h1>
-      <p className="text-sm uppercase tracking-[0.4em] text-neutral-500 mb-10 font-bold">Serving Residential, Commercial & Development Projects</p>
-      <p className="text-xl md:text-2xl text-neutral-600 font-light leading-relaxed max-w-3xl mx-auto">
-        In the world of high-end real estate, perspective is everything. Our drone solutions provide builders, developers, and agents with a comprehensive visual narrative that traditional photography simply cannot reach. From site analysis to final marketing assets, we deliver precision.
-      </p>
-    </section>
-
-    {/* Featured Row */}
-    <section className="px-4 mb-32">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {[1,2,3].map((i) => (
-          <div key={i} className="aspect-video bg-neutral-100 flex items-center justify-center text-neutral-400 border border-neutral-200">
-            IMAGE_URL_HERE_FEATURE_{i}
-          </div>
-        ))}
-      </div>
-    </section>
-
-    {/* Split Section */}
-    <section className="grid grid-cols-1 md:grid-cols-2 gap-0 mb-32">
-      <div className="bg-neutral-50 p-16 md:p-32 flex flex-col justify-center">
-        <h2 className="text-4xl font-bold tracking-tighter mb-8">Elevated Site Analysis</h2>
-        <p className="text-lg text-neutral-600 leading-relaxed font-light mb-8">
-          Beyond marketing, aerial photography offers invaluable insights for development. We capture precise views that assist in site planning, boundary verification, and construction progress tracking, ensuring every phase of your project is documented with clarity.
-        </p>
-        <div className="flex space-x-8">
-          <div className="text-center">
-            <div className="text-3xl font-bold">100+</div>
-            <div className="text-[10px] uppercase tracking-widest text-neutral-500 font-bold">Properties</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold">4K</div>
-            <div className="text-[10px] uppercase tracking-widest text-neutral-500 font-bold">Resolution</div>
-          </div>
-        </div>
-      </div>
-      <div className="aspect-square bg-neutral-200 flex items-center justify-center text-neutral-400">
-        IMAGE_URL_HERE_SPLIT
-      </div>
-    </section>
-
-    {/* Large Grid Gallery */}
-    <section className="px-4 mb-32">
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {[...Array(15)].map((_, i) => (
-          <div key={i} className="aspect-[3/2] bg-neutral-100 flex items-center justify-center text-neutral-300 hover:scale-[1.02] transition-transform cursor-pointer relative group">
-             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors" />
-             <span className="text-[10px] uppercase tracking-widest">GALLERY_IMAGE_{i+1}</span>
-          </div>
-        ))}
-      </div>
-    </section>
-
-    {/* Feature Block */}
-    <section className="grid grid-cols-1 md:grid-cols-2 gap-0 bg-neutral-950 text-white mb-32">
-      <div className="aspect-square bg-neutral-800 flex items-center justify-center text-neutral-600">
-        IMAGE_URL_HERE_NIGHT_OR_DUSK
-      </div>
-      <div className="p-16 md:p-32 flex flex-col justify-center">
-        <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-8">High-Resolution Aerial Views: Elevate Your Project</h2>
-        <p className="text-xl text-neutral-400 leading-relaxed font-light mb-10">
-          Capture the scale of your development and the prestige of your architecture. Our high-resolution imagery provides a competitive advantage that defines modern luxury real estate listings.
-        </p>
-        <button className="self-start border border-white px-8 py-4 text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all">
-          View Projects
-        </button>
-      </div>
-    </section>
-
-    {/* Testimonial Strip */}
-    <section className="py-40 px-6 text-center">
-      <p className="text-3xl md:text-5xl font-serif italic text-neutral-800 max-w-4xl mx-auto leading-tight">
-        "Clients hire Luke because his photography drives results and defines the standard for aerial architectural media."
-      </p>
-    </section>
-
-    {/* Brand Logos */}
-    <section className="py-24 border-t border-neutral-100 px-6">
-      <div className="max-w-7xl mx-auto flex flex-wrap justify-center items-center gap-16 md:gap-32 opacity-30 grayscale">
-        <div className="text-2xl font-bold font-serif">LUXURY HOMES</div>
-        <div className="text-2xl font-bold font-serif">REALTY GROUP</div>
-        <div className="text-2xl font-bold font-serif">ARCH MEDIA</div>
-        <div className="text-2xl font-bold font-serif">DEVELOP CO</div>
-        <div className="text-2xl font-bold font-serif">PRIME ESTATE</div>
-      </div>
-    </section>
-  </div>
-);
-
-export default function App() {
-  const [currentPage, setCurrentPage] = useState('home');
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [currentPage]);
-
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'portfolio':
-        return <Portfolio />;
-      default:
-        return <Home setPage={setCurrentPage} />;
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-white font-sans text-neutral-900 selection:bg-black selection:text-white">
-      <Navbar currentPage={currentPage} setPage={setCurrentPage} />
-      
-      <main>
-        {renderPage()}
-      </main>
-
-      <Footer setPage={setCurrentPage} />
-    </div>
-  );
-}
+        // Generate Portfolio Grid
+        const grid = document.getElementById('portfolio-grid');
+        for (let i = 1; i <= 15; i++) {
+            const div = document.createElement('div');
+            div.className = 'aspect-[3/2] image-placeholder hover:scale-[1.02] transition-transform cursor-pointer group';
+            div.innerHTML = `
+                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors z-10"></div>
+                <span class="text-[10px] uppercase tracking-widest z-20">GALLERY_IMAGE_${i}</span>
+            `;
+            grid.appendChild(div);
+        }
+    </script>
+</body>
+</html>
