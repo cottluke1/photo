@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | The Woodlands Aerial Photography</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+
+        .image-container {
+            background-color: #f8f8f8;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .group:hover img {
+            transform: scale(1.04);
+        }
+
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .editorial-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body class="bg-white text-neutral-900 selection:bg-black selection:text-white">
+
+    <!-- NAVIGATION -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 bg-white py-6 border-b border-neutral-100">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <a href="index.html" class="text-xl md:text-2xl font-black tracking-tighter uppercase leading-none">
+                The Woodlands <br class="md:hidden" /> <span class="font-light">Aerial Photography</span>
+            </a>
+            
+            <div class="hidden md:flex items-center space-x-10">
+                <a href="portfolio.html" class="text-xs uppercase tracking-[0.25em] font-bold text-black transition-colors">Portfolio</a>
+                <a href="#" class="text-xs uppercase tracking-[0.25em] font-bold text-neutral-400 hover:text-black transition-colors">Services</a>
+                <a href="index.html#about-section" class="text-xs uppercase tracking-[0.25em] font-bold text-neutral-400 hover:text-black transition-colors">About</a>
+                
+                <a href="mailto:contact@woodlandsaerial.com" class="bg-black text-white px-8 py-3 text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-neutral-800 transition-all text-center">
+                    Get a Quote
+                </a>
+            </div>
+            <div class="md:hidden"><i data-lucide="menu" class="w-6 h-6"></i></div>
+        </div>
+    </nav>
+
+    <main class="pt-32">
+        <!-- Editorial Header -->
+        <section class="px-6 max-w-4xl mx-auto text-center pt-20 mb-20">
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 uppercase leading-none">Aerial Architectural <br />Photography</h1>
+            <p class="text-xs tracking-[0.3em] text-neutral-500 mb-8 font-bold uppercase">THE WOODLANDS, MONTGOMERY COUNTY</p>
+            <p class="text-sm md:text-base text-neutral-600 font-light leading-relaxed max-w-2xl mx-auto uppercase tracking-wide">
+                Specializing in Aerial Media for Luxury Realtors, Home Builders, Civil Engineers & Urban Planners. We utilize the DJI Mavic 3 fleet to ensure maximum resolution and dynamic range for every project.
+            </p>
+        </section>
+
+        <!-- 3 Image Row -->
+        <section class="max-w-7xl mx-auto px-6 mb-24">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="aspect-[4/3] image-container shadow-sm"><img src="https://github.com/cottluke1/photo/blob/main/10WIBack.png?raw=true" alt="Site Analysis 1"></div>
+                <div class="aspect-[4/3] image-container shadow-sm"><img src="https://github.com/cottluke1/photo/blob/main/2WIDW.png?raw=true" alt="Site Analysis 2"></div>
+                <div class="aspect-[4/3] image-container shadow-sm"><img src="https://github.com/cottluke1/photo/blob/main/10WISBack.png?raw=true" alt="Site Analysis 3"></div>
+            </div>
+        </section>
+
+        <!-- Builders Split -->
+        <section class="max-w-7xl mx-auto px-6 mb-32">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1">
+                    <h2 class="text-lg md:text-xl font-bold tracking-widest uppercase mb-8 leading-tight">
+                        Aerial Photography for Home Builders, <br class="hidden md:block" /> Civil Engineers & Urban Planners
+                    </h2>
+                    <p class="text-sm text-neutral-600 leading-relaxed font-light max-w-lg">
+                        The Woodlands Aerial Photography utilizes advanced drone technology to capture razor-sharp assets. This perspective helps developers quickly identify land use opportunities and identify necessary changes to designs in real-time.
+                    </p>
+                </div>
+                <div class="order-1 md:order-2 aspect-[4/3] image-container shadow-xl">
+                    <img src="https://luxuryrealestateimages.com/wp-content/uploads/2025/02/COMMERCIAL-REAL-ESTATE-PHOTOGRAPHY_0017.jpg" alt="Commercial Planning">
+                </div>
+            </div>
+        </section>
+
+        <!-- Editorial Grid -->
+        <section class="max-w-7xl mx-auto px-6 mb-32">
+            <div class="editorial-grid">
+                <div class="aspect-video image-container group"><img src="https://github.com/cottluke1/photo/blob/main/2WIBack.png?raw=true" alt="Project A"></div>
+                <div class="aspect-video image-container group"><img src="https://ap.rdcpix.com/0ea38c7516f74422f270b4e02fe55ea8l-m3165037148rd-w960_h720.webp" alt="Project B"></div>
+                <div class="aspect-video image-container group"><img src="https://www.papercitymag.com/wp-content/uploads/2023/12/62-Hallbrook-Way.jpg" alt="Project C"></div>
+                <div class="aspect-video image-container group"><img src="https://github.com/cottluke1/photo/blob/main/10WIBack.png?raw=true" alt="Project D"></div>
+                <div class="aspect-video image-container group"><img src="https://github.com/cottluke1/photo/blob/main/10WISBack.png?raw=true" alt="Project E"></div>
+                <div class="aspect-video image-container group"><img src="https://github.com/cottluke1/photo/blob/main/2WIDW.png?raw=true" alt="Project F"></div>
+            </div>
+        </section>
+
+        <!-- Testimonial Strip -->
+        <section class="py-32 px-6 text-center border-t border-neutral-100">
+            <p class="text-2xl md:text-4xl font-serif italic text-neutral-800 max-w-4xl mx-auto leading-tight mb-8">
+                "Clients in Montgomery County trust us because our photography delivers undeniable results."
+            </p>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-12">
+                <span class="text-[10px] tracking-[0.4em] font-bold text-neutral-400 uppercase">Trusted by Global Luxury Brands</span>
+                <a href="mailto:contact@woodlandsaerial.com" class="bg-neutral-600 text-white px-12 py-5 text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-black transition-all">
+                    Book a Consultation
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-neutral-950 text-white py-24 px-6 text-center">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-2xl font-bold tracking-tighter mb-8 uppercase leading-none">The Woodlands <br /> <span class="font-light">Aerial Photography</span></h2>
+            <div class="flex justify-center space-x-8 text-xs uppercase tracking-widest font-bold text-neutral-500 mb-8">
+                <a href="index.html" class="hover:text-white">Home</a>
+                <a href="portfolio.html" class="text-white">Portfolio</a>
+                <a href="#" class="hover:text-white">Contact</a>
+            </div>
+            <p class="text-[10px] text-neutral-700 uppercase tracking-[0.5em]">The Woodlands, Texas</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>
